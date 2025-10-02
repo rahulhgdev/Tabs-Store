@@ -16,7 +16,7 @@
         .container button {
             width: 100%;
             padding: 10px;
-            margin: 5px 0;
+            margin: 16px 0 0;
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -26,12 +26,17 @@
         .container button:hover {
             background-color: #45a049;
         }
-        .container ul {
+        .container #urlList {
             list-style-type: none;
             padding: 8px;
             background: #efefef;
             border-radius: 4px;
             overflow-x: auto;
+            max-height: 320px;
+        }
+        .container #urlList ul {
+            padding-left: 20px;
+            word-break: break-all;
         }
         .container li {
             margin: 5px 0;
@@ -67,10 +72,9 @@
             <img src="/tab.png" alt="logo" height="25" width="25">
         </div>
         <h2>Saved URLs</h2>
-        <ul id="urlList"></ul>
+        <div id="urlList"></div>
         <div class="bottom">
-            <button id="saveTabBtn">Save All URLs</button>
-            <button id="clearBtn">Clear All URLs</button>
+            <button id="saveTabBtn">Add URLs</button>
         </div>
     </main>
     <script src="popup.js"></script>
