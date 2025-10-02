@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TabStore</title>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            padding: 10px;
+            width: 500px;
+        }
+        .container h2{
+            font-size: 1rem;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .container button:hover {
+            background-color: #45a049;
+        }
+        .container ul {
+            list-style-type: none;
+            padding: 8px;
+            background: #efefef;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .container li {
+            margin: 5px 0;
+            padding-bottom: 5px;
+            font-size: 14px;
+            border-bottom: 1px dashed;
+        }
+        .container .top, .container .bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .container a {
+            text-decoration: none;
+        }
+        .container a:visited{
+            color: blue;
+        }
+        .container p{
+            font-size: 1rem;
+            text-align: center;
+            font-style: italic;
+            color: grey;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="top">
+            <h2>TabStore</h2>
+            <img src="/tab.png" alt="logo" height="25" width="25">
+        </div>
+        <h2>Saved URLs</h2>
+        <ul id="urlList"></ul>
+        <div class="bottom">
+            <button id="saveTabBtn">Save All URLs</button>
+            <button id="clearBtn">Clear All URLs</button>
+        </div>
+    </main>
+    <script src="popup.js"></script>
+</body>
+</html>
