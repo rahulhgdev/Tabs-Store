@@ -46,7 +46,8 @@ body {
   margin: 12px 0;
 }
 .container button.accordion-header,
-#saveTabBtn {
+#saveTabBtn,
+#openMultiUrls {
   width: 100%;
   padding: 10px;
   background-color: #5b6e79f5;
@@ -55,8 +56,12 @@ body {
   cursor: pointer;
   border-radius: 4px;
 }
-#saveTabBtn {
-  margin: 16px 0 0;
+#saveTabBtn,
+#openMultiUrls {
+  margin: 12px 0 0;
+}
+#openMultiUrls{
+    width: 250px;
 }
 .open-all-btn,
 .delete-btn {
@@ -65,7 +70,8 @@ body {
   padding: 0;
 }
 .container button.accordion-header:hover,
-#saveTabBtn:hover {
+#saveTabBtn:hover,
+#openMultiUrls:hover {
   background-color: #2d607df5;
 }
 .container #urlList {
@@ -118,4 +124,16 @@ textarea#multiUrls {
   white-space: pre;
   overflow: auto;
   outline: none;
+  background: #efefef;
+}
+.options{
+    display: flex;
+    gap: 10px;
+    margin: 12px 0 0;
+}
+.options div{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
 }

@@ -2,6 +2,9 @@ const saveButton = document.getElementById("saveTabBtn");
 const clearTabs = document.getElementById("clearBtn");
 const tabList = document.getElementById("urlList");
 
+const multiUrlsTextarea = document.getElementById("multiUrls");
+const openMultiUrlsButton = document.getElementById("openMultiUrls");
+
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
 chrome.storage.local.get({ accordions: [] }, (result) => {
@@ -161,3 +164,9 @@ function createAccordion(name, date, urls) {
 
 
 // ---- Mutli URLs Opener ---- //
+const getPreserve = document.getElementById('preserveUrls');
+if(getPreserve.checked){
+}
+openMultiUrlsButton.addEventListener("click", () => {
+  alert('click');
+});
