@@ -48,7 +48,8 @@ saveButton.addEventListener("click", () => {
   const accordionName = prompt("Enter a name for this accordion:");
   if (!accordionName) return;
 
-  const createdDate = new Date().toLocaleString();
+  let createdDate = new Date();
+  createdDate = `${createdDate.getDate()}/${createdDate.getMonth() + 1}/${createdDate.getFullYear()}`;
 
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     const urlsToAdd = [];
@@ -89,15 +90,12 @@ function createAccordion(name, date, urls) {
 
   // Accordion header container
   const headerContainer = document.createElement("div");
-  headerContainer.style.display = "flex";
-  headerContainer.style.alignItems = "center";
-  headerContainer.style.gap = "16px";
+  headerContainer.className = "headerContainer";
 
   // Accordion header button
   const header = document.createElement("button");
   header.className = "accordion-header";
-  header.textContent = `${name} (${date})`;
-  header.style.flex = "1";
+  header.innerHTML = `<strong class="acc-name">${name}</strong> <span class="acc-date">(${date})</span>`;
   header.onclick = function () {
     content.style.display = content.style.display === "none" ? "block" : "none";
   };
@@ -105,7 +103,8 @@ function createAccordion(name, date, urls) {
 
   // Open All URLs button
   const openAllBtn = document.createElement("button");
-  openAllBtn.textContent = "Open All URLs";
+  openAllBtn.className = "open-all-btn";
+  openAllBtn.innerHTML = '<img src="/open-url.png" alt="Open All" height="28" width="28"/>';
   openAllBtn.onclick = function () {
     // Open each URL in a new tab
     urls.forEach((url) => {
@@ -116,7 +115,8 @@ function createAccordion(name, date, urls) {
 
   // Delete accordion button
   const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.innerHTML = '<img src="/delete.png" alt="Delete" height="28" width="28"/>';
   deleteBtn.onclick = function () {
     chrome.storage.local.get({ accordions: [] }, (result) => {
       let accordions = result.accordions || [];

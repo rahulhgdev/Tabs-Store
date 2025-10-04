@@ -9,22 +9,39 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             padding: 10px;
             width: 500px;
+            min-height: 480px;
         }
         .container h2{
             font-size: 1rem;
         }
-        .container button {
+        .headerContainer{
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 12px 0;
+        }
+        .container button.accordion-header,
+        #saveTabBtn {
             width: 100%;
             padding: 10px;
-            margin: 16px 0 0;
-            background-color: #4CAF50;
+            background-color: #5b6e79f5;
             color: white;
             border: none;
             cursor: pointer;
             border-radius: 4px;
         }
-        .container button:hover {
-            background-color: #45a049;
+        #saveTabBtn{
+            margin: 16px 0 0;
+        }
+        .open-all-btn,
+        .delete-btn {
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .container button.accordion-header:hover,
+        #saveTabBtn:hover {
+            background-color: #2d607df5;
         }
         .container #urlList {
             list-style-type: none;
@@ -35,7 +52,8 @@
             max-height: 320px;
         }
         .container #urlList ul {
-            padding-left: 20px;
+            padding-left: 0;
+            list-style-type: unset;
             word-break: break-all;
         }
         .container li {
@@ -52,6 +70,9 @@
         }
         .container a {
             text-decoration: none;
+        }
+        .container a:hover {
+            text-decoration: underline;
         }
         .container a:visited{
             color: blue;
