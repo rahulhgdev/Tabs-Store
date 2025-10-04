@@ -48,7 +48,8 @@ body {
 }
 .container button.accordion-header,
 #saveTabBtn,
-#openMultiUrls {
+#openMultiUrls,
+#deleteMultiUrls {
   width: 100%;
   padding: 10px;
   background-color: #5b6e79f5;
@@ -58,11 +59,12 @@ body {
   border-radius: 4px;
 }
 #saveTabBtn,
-#openMultiUrls {
+#openMultiUrls,
+#deleteMultiUrls {
   margin: 12px 0 0;
 }
-#openMultiUrls{
-    width: 250px;
+#openMultiUrls, #deleteMultiUrls{
+    width: 50%;
 }
 .open-all-btn,
 .delete-btn {
@@ -72,7 +74,8 @@ body {
 }
 .container button.accordion-header:hover,
 #saveTabBtn:hover,
-#openMultiUrls:hover {
+#openMultiUrls:hover,
+#deleteMultiUrls:hover {
   background-color: #2d607df5;
 }
 .container #urlList {

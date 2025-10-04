@@ -5,6 +5,7 @@ const tabList = document.getElementById("urlList");
 const multiUrlsTextarea = document.getElementById("multiUrls");
 const openMultiUrlsButton = document.getElementById("openMultiUrls");
 const getPreserve = document.getElementById("preserveUrls");
+const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -164,12 +165,52 @@ function createAccordion(name, date, urls) {
 }
 
 // ---- Multi URLs Opener ---- //
-let multiUrlList = [];
+
+// On popup load, restore textarea URLs from storage
+chrome.storage.local.get({ multiUrls: [] }, (result) => {
+  if (result.multiUrls && result.multiUrls.length > 0) {
+    multiUrlsTextarea.value = result.multiUrls.join("\n");
+  }
+});
+
+// Save textarea URLs to storage when getPreserve is checked/unchecked or textarea changes
+function saveMultiUrlsIfPreserve() {
+  if (getPreserve.checked) {
+    const urls = multiUrlsTextarea.value.split("\n").map(url => url.trim()).filter(url => url !== "");
+    chrome.storage.local.set({ multiUrls: urls });
+  }
+}
+
+// Clear textarea and storage if unchecked
+if(!getPreserve.checked){
+  multiUrlsTextarea.value = "";
+  chrome.storage.local.remove("multiUrls")
+}
+multiUrlsTextarea.addEventListener("input", saveMultiUrlsIfPreserve);
+
+// Store status of checkbox
+chrome.storage.local.get({ preserveChecked: false }, (result) => {
+  getPreserve.checked = result.preserveChecked;
+});
+
+// Save checkbox state when changed
+getPreserve.addEventListener("change", () => {
+  chrome.storage.local.set({ preserveChecked: getPreserve.checked });
+  saveMultiUrlsIfPreserve();
+});
+
+// Open all URLs from textarea in new tabs
 openMultiUrlsButton.addEventListener("click", () => {
-  multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
+  const multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
   if (multiUrlList.length > 0) {
     multiUrlList.forEach((url) => {
       chrome.tabs.create({ url });
     });
   }
+});
+
+// Delete all URLs from textarea and storage
+deleteMultiUrlsButton.addEventListener("click", () => {
+  multiUrlsTextarea.value = "";
+  chrome.storage.local.remove("multiUrls");
 });
