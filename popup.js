@@ -201,7 +201,14 @@ getPreserve.addEventListener("change", () => {
 
 // Open all URLs from textarea in new tabs
 openMultiUrlsButton.addEventListener("click", () => {
-  const multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
+  let multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
+  // To Remove duplicates, keep only first occurrence
+  const seen = new Set();
+  multiUrlList = multiUrlList.filter(url => {
+    if (seen.has(url)) return false;
+    seen.add(url);
+    return true;
+  });
   if (multiUrlList.length > 0) {
     multiUrlList.forEach((url) => {
       chrome.tabs.create({ url });
