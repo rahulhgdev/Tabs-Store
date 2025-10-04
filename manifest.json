@@ -1,11 +1,11 @@
 {
     "manifest_version": 3,
     "name": "TabStore",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "A Chrome extension to save and manage your tabs.",
     "permissions": ["tabs", "storage"],
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "tab.png"
+        "default_icon": "/images/tab.png"
     }
 }

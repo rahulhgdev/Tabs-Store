@@ -4,6 +4,7 @@ const tabList = document.getElementById("urlList");
 
 const multiUrlsTextarea = document.getElementById("multiUrls");
 const openMultiUrlsButton = document.getElementById("openMultiUrls");
+const getPreserve = document.getElementById("preserveUrls");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -162,11 +163,13 @@ function createAccordion(name, date, urls) {
   tabList.appendChild(accordion);
 }
 
-
-// ---- Mutli URLs Opener ---- //
-const getPreserve = document.getElementById('preserveUrls');
-if(getPreserve.checked){
-}
+// ---- Multi URLs Opener ---- //
+let multiUrlList = [];
 openMultiUrlsButton.addEventListener("click", () => {
-  alert('click');
+  multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
+  if (multiUrlList.length > 0) {
+    multiUrlList.forEach((url) => {
+      chrome.tabs.create({ url });
+    });
+  }
 });
