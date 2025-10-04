@@ -6,6 +6,7 @@ const multiUrlsTextarea = document.getElementById("multiUrls");
 const openMultiUrlsButton = document.getElementById("openMultiUrls");
 const getPreserve = document.getElementById("preserveUrls");
 const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
+const openInGroup = document.getElementById("openInGroup");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -166,12 +167,21 @@ function createAccordion(name, date, urls) {
 
 // ---- Multi URLs Opener ---- //
 
-// On popup load, restore textarea URLs from storage
-chrome.storage.local.get({ multiUrls: [] }, (result) => {
-  if (result.multiUrls && result.multiUrls.length > 0) {
-    multiUrlsTextarea.value = result.multiUrls.join("\n");
-  }
-});
+// On popup load, restore textarea URLs from storage or clear if getPreserve is unchecked
+function restoreOrClearMultiUrls() {
+  chrome.storage.local.get({ preserveChecked: false, multiUrls: [] }, (result) => {
+    getPreserve.checked = result.preserveChecked;
+    if (getPreserve.checked) {
+      if (result.multiUrls && result.multiUrls.length > 0) {
+        multiUrlsTextarea.value = result.multiUrls.join("\n");
+      }
+    } else {
+      multiUrlsTextarea.value = "";
+      chrome.storage.local.remove("multiUrls");
+    }
+  });
+}
+restoreOrClearMultiUrls();
 
 // Save textarea URLs to storage when getPreserve is checked/unchecked or textarea changes
 function saveMultiUrlsIfPreserve() {
@@ -180,29 +190,29 @@ function saveMultiUrlsIfPreserve() {
     chrome.storage.local.set({ multiUrls: urls });
   }
 }
-
-// Clear textarea and storage if unchecked
-if(!getPreserve.checked){
-  multiUrlsTextarea.value = "";
-  chrome.storage.local.remove("multiUrls")
-}
 multiUrlsTextarea.addEventListener("input", saveMultiUrlsIfPreserve);
 
-// Store status of checkbox
-chrome.storage.local.get({ preserveChecked: false }, (result) => {
-  getPreserve.checked = result.preserveChecked;
-});
-
-// Save checkbox state when changed
+// Save checkbox state when changed - getPreserve
 getPreserve.addEventListener("change", () => {
   chrome.storage.local.set({ preserveChecked: getPreserve.checked });
-  saveMultiUrlsIfPreserve();
+  restoreOrClearMultiUrls();
 });
+
+// Store status of checkbox
+chrome.storage.local.get({ openInGroupChecked: false }, (result) => {
+  openInGroup.checked = result.openInGroupChecked;
+});
+
+// Save checkbox state when changed - openInGroup
+openInGroup.addEventListener("change", () => {
+  chrome.storage.local.set({ openInGroupChecked: openInGroup.checked });
+});
+
 
 // Open all URLs from textarea in new tabs
 openMultiUrlsButton.addEventListener("click", () => {
   let multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
-  // To Remove duplicates, keep only first occurrence
+  // Remove duplicates, keep only first occurrence
   const seen = new Set();
   multiUrlList = multiUrlList.filter(url => {
     if (seen.has(url)) return false;
@@ -210,9 +220,33 @@ openMultiUrlsButton.addEventListener("click", () => {
     return true;
   });
   if (multiUrlList.length > 0) {
-    multiUrlList.forEach((url) => {
-      chrome.tabs.create({ url });
-    });
+    if (openInGroup.checked) {
+      // Open all URLs in a tab group
+      const tabIds = [];
+      let createdCount = 0;
+      let firstTabId = null;
+      multiUrlList.forEach((url, idx) => {
+        chrome.tabs.create({ url }, (tab) => {
+          tabIds.push(tab.id);
+          if (idx === 0) firstTabId = tab.id;
+          createdCount++;
+          // When all tabs are created, group them
+          if (createdCount === multiUrlList.length) {
+            chrome.tabs.get(firstTabId, (firstTab) => {
+              const colors = ["grey", "blue", "red", "yellow", "green", "pink", "purple", "cyan", "orange"]; 
+              const color = colors[Math.floor(Math.random() * colors.length)];
+              chrome.tabs.group({ tabIds }, (groupId) => {
+                chrome.tabGroups.update(groupId, { title: firstTab.title, color });
+              });
+            });
+          }
+        });
+      });
+    } else {
+      multiUrlList.forEach((url) => {
+        chrome.tabs.create({ url });
+      });
+    }
   }
 });
 
