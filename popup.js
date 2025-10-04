@@ -115,7 +115,7 @@ function createAccordion(name, date, urls) {
   openAllBtn.onclick = function () {
     // Open each URL in a new tab
     urls.forEach((url) => {
-      chrome.tabs.create({ url });
+      chrome.tabs.create({ active: false, url });
     });
   };
   headerContainer.appendChild(openAllBtn);
@@ -195,7 +195,7 @@ multiUrlsTextarea.addEventListener("input", saveMultiUrlsIfPreserve);
 // Save checkbox state when changed - getPreserve
 getPreserve.addEventListener("change", () => {
   chrome.storage.local.set({ preserveChecked: getPreserve.checked });
-  restoreOrClearMultiUrls();
+  saveMultiUrlsIfPreserve();
 });
 
 // Store status of checkbox
@@ -226,7 +226,7 @@ openMultiUrlsButton.addEventListener("click", () => {
       let createdCount = 0;
       let firstTabId = null;
       multiUrlList.forEach((url, idx) => {
-        chrome.tabs.create({ url }, (tab) => {
+        chrome.tabs.create({ url, active: false }, (tab) => {
           tabIds.push(tab.id);
           if (idx === 0) firstTabId = tab.id;
           createdCount++;
@@ -244,7 +244,7 @@ openMultiUrlsButton.addEventListener("click", () => {
       });
     } else {
       multiUrlList.forEach((url) => {
-        chrome.tabs.create({ url });
+        chrome.tabs.create({ url, active: false });
       });
     }
   }

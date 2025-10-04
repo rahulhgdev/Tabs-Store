@@ -20,10 +20,10 @@ body {
   margin-right: 2px;
 }
 .tab-label:hover {
-  background-color: #ccc;
+  background-color: #efefef;
 }
 .tabs input[type="radio"]:checked + .tab-label {
-  background-color: #ddd;
+  background-color: #efefef;
   border-color: #fff;
 }
 .tab-content {
