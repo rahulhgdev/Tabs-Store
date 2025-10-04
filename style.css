@@ -1,0 +1,121 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  width: 500px;
+  min-height: 480px;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabs input[type="radio"] {
+  display: none;
+}
+.tab-label {
+  padding: 10px 15px;
+  border-bottom: none;
+  cursor: pointer;
+  border-radius: 5px 5px 0 0;
+  margin-right: 2px;
+}
+.tab-label:hover {
+  background-color: #ccc;
+}
+.tabs input[type="radio"]:checked + .tab-label {
+  background-color: #ddd;
+  border-color: #fff;
+}
+.tab-content {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  display: none;
+  order: 2;
+}
+.tabs input[type="radio"]:checked + .tab-label + .tab-content {
+  display: block;
+}
+.container h2 {
+  font-size: 1rem;
+}
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+.container button.accordion-header,
+#saveTabBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #5b6e79f5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+#saveTabBtn {
+  margin: 16px 0 0;
+}
+.open-all-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.container button.accordion-header:hover,
+#saveTabBtn:hover {
+  background-color: #2d607df5;
+}
+.container #urlList {
+  list-style-type: none;
+  padding: 8px;
+  background: #efefef;
+  border-radius: 4px;
+  overflow-x: auto;
+  max-height: 320px;
+}
+.container #urlList ul {
+  padding-left: 0;
+  list-style-type: unset;
+  word-break: break-all;
+}
+.container li {
+  margin: 5px 0;
+  padding-bottom: 5px;
+  font-size: 14px;
+  border-bottom: 1px dashed;
+}
+.container .top,
+.container .bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.container a {
+  text-decoration: none;
+}
+.container a:hover {
+  text-decoration: underline;
+}
+.container a:visited {
+  color: blue;
+}
+.container p {
+  font-size: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: grey;
+  margin: 4px 0;
+}
+textarea#multiUrls {
+  width: calc(100% - 6px);
+  min-height: 300px;
+  flex-grow: 1;
+  resize: none;
+  white-space: pre;
+  overflow: auto;
+  outline: none;
+}

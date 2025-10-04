@@ -4,98 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TabStore</title>
-    <style>
-        body {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            padding: 10px;
-            width: 500px;
-            min-height: 480px;
-        }
-        .container h2{
-            font-size: 1rem;
-        }
-        .headerContainer{
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 12px 0;
-        }
-        .container button.accordion-header,
-        #saveTabBtn {
-            width: 100%;
-            padding: 10px;
-            background-color: #5b6e79f5;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        #saveTabBtn{
-            margin: 16px 0 0;
-        }
-        .open-all-btn,
-        .delete-btn {
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-        .container button.accordion-header:hover,
-        #saveTabBtn:hover {
-            background-color: #2d607df5;
-        }
-        .container #urlList {
-            list-style-type: none;
-            padding: 8px;
-            background: #efefef;
-            border-radius: 4px;
-            overflow-x: auto;
-            max-height: 320px;
-        }
-        .container #urlList ul {
-            padding-left: 0;
-            list-style-type: unset;
-            word-break: break-all;
-        }
-        .container li {
-            margin: 5px 0;
-            padding-bottom: 5px;
-            font-size: 14px;
-            border-bottom: 1px dashed;
-        }
-        .container .top, .container .bottom {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        .container a {
-            text-decoration: none;
-        }
-        .container a:hover {
-            text-decoration: underline;
-        }
-        .container a:visited{
-            color: blue;
-        }
-        .container p{
-            font-size: 1rem;
-            text-align: center;
-            font-style: italic;
-            color: grey;
-            margin: 4px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <main class="container">
         <div class="top">
             <h2>TabStore</h2>
-            <img src="/tab.png" alt="logo" height="25" width="25">
+            <img src="/images/tab.png" alt="logo" height="25" width="25">
         </div>
-        <h2>Saved URLs</h2>
-        <div id="urlList"></div>
-        <div class="bottom">
-            <button id="saveTabBtn">Add URLs</button>
+        <div class="tabs">
+            <input type="radio" name="tabs" id="tab1" checked />
+            <label for="tab1" class="tab-label">Save URLs</label>
+            <div class="tab-content" id="content1">
+                <h2>Saved URLs</h2>
+                <div id="urlList"></div>
+                <div class="bottom">
+                    <button id="saveTabBtn">Add URLs</button>
+                </div>
+            </div>
+
+            <input type="radio" name="tabs" id="tab2" />
+            <label for="tab2" class="tab-label">Multi URLs Opener</label>
+            <div class="tab-content" id="content2">
+                <h2>Enter URLs below:</h2>
+                <textarea id="multiUrls"></textarea>
+            </div>
         </div>
     </main>
     <script src="popup.js"></script>

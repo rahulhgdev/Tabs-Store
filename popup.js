@@ -2,6 +2,7 @@ const saveButton = document.getElementById("saveTabBtn");
 const clearTabs = document.getElementById("clearBtn");
 const tabList = document.getElementById("urlList");
 
+// ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
 chrome.storage.local.get({ accordions: [] }, (result) => {
   tabList.innerHTML = "";
@@ -104,7 +105,7 @@ function createAccordion(name, date, urls) {
   // Open All URLs button
   const openAllBtn = document.createElement("button");
   openAllBtn.className = "open-all-btn";
-  openAllBtn.innerHTML = '<img src="/open-url.png" alt="Open All" height="28" width="28"/>';
+  openAllBtn.innerHTML = '<img src="/images/open-url.png" alt="Open All" height="28" width="28"/>';
   openAllBtn.onclick = function () {
     // Open each URL in a new tab
     urls.forEach((url) => {
@@ -116,7 +117,7 @@ function createAccordion(name, date, urls) {
   // Delete accordion button
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
-  deleteBtn.innerHTML = '<img src="/delete.png" alt="Delete" height="28" width="28"/>';
+  deleteBtn.innerHTML = '<img src="/images/delete.png" alt="Delete" height="28" width="28"/>';
   deleteBtn.onclick = function () {
     chrome.storage.local.get({ accordions: [] }, (result) => {
       let accordions = result.accordions || [];
@@ -157,3 +158,6 @@ function createAccordion(name, date, urls) {
   accordion.appendChild(content);
   tabList.appendChild(accordion);
 }
+
+
+// ---- Mutli URLs Opener ---- //
