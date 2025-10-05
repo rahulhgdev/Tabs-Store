@@ -142,3 +142,6 @@ textarea#multiUrls {
     gap: 4px;
     cursor: pointer;
 }
+.options label{
+  cursor: pointer;
+}

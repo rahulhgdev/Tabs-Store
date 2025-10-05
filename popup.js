@@ -144,7 +144,7 @@ function createAccordion(name, date, urls) {
     const urlObj = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = urlObj;
-    a.download = `${name.replace(/\s+/g, '_')}_urls.xls`;
+    a.download = `${name.replace(/\s+/g, '_')}_urls.xlsx`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -154,27 +154,29 @@ function createAccordion(name, date, urls) {
   };
   headerContainer.appendChild(downloadBtn);
 
-  // Delete accordion button
+  // Delete accordion button with confirmation
   const deleteBtn = document.createElement("button");
   deleteBtn.className = "delete-btn";
   deleteBtn.innerHTML = '<img src="/images/delete.png" alt="Delete" height="28" width="28"/>';
   deleteBtn.onclick = function () {
-    chrome.storage.local.get({ accordions: [] }, (result) => {
-      let accordions = result.accordions || [];
-      accordions = accordions.filter(
-        (acc) => !(acc.name === name && acc.date === date)
-      );
-      chrome.storage.local.set({ accordions }, () => {
-        tabList.innerHTML = "";
-        if (accordions.length === 0) {
-          showNoUrlsMessage();
-        } else {
-          accordions.forEach((acc) => {
-            createAccordion(acc.name, acc.date, acc.urls);
-          });
-        }
+    if (confirm(`Are you sure you want to delete '${name}'?`)) {
+      chrome.storage.local.get({ accordions: [] }, (result) => {
+        let accordions = result.accordions || [];
+        accordions = accordions.filter(
+          (acc) => !(acc.name === name && acc.date === date)
+        );
+        chrome.storage.local.set({ accordions }, () => {
+          tabList.innerHTML = "";
+          if (accordions.length === 0) {
+            showNoUrlsMessage();
+          } else {
+            accordions.forEach((acc) => {
+              createAccordion(acc.name, acc.date, acc.urls);
+            });
+          }
+        });
       });
-    });
+    }
   };
   headerContainer.appendChild(deleteBtn);
 
