@@ -67,7 +67,8 @@ body {
     width: 50%;
 }
 .open-all-btn,
-.delete-btn {
+.delete-btn,
+.download-btn {
   border: none;
   cursor: pointer;
   padding: 0;
