@@ -1,3 +1,7 @@
+chrome.runtime.onInstalled.addListener(()=>{
+  chrome.tabs.create({url: "help.html"});
+})
+
 chrome.commands.onCommand.addListener(function(command) {
   if (command === "save-tabs") {
     chrome.tabs.query({ currentWindow: true }, (tabs) => {
