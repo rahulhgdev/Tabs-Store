@@ -3,7 +3,10 @@
     "name": "Tab Store",
     "version": "1.0.0",
     "description": "A Chrome extension to save and manage your tabs.",
-    "permissions": ["tabs", "tabGroups","storage"],
+    "permissions": ["tabs", "tabGroups", "storage"],
+    "background": {
+        "service_worker": "background.js"
+    },
     "action": {
         "default_popup": "popup.html",
         "default_icon": "images/tab.png"
@@ -13,5 +16,19 @@
         "32": "images/tab-32x32.png",
         "48": "images/tab-48x48.png",
         "128": "images/tab-128x128.png"
+    },
+    "commands": {
+        "open-popup": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y"
+            },
+            "description": "Open Tab Store popup"
+        },
+        "save-tabs": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+S"
+            },
+            "description": "Save all tabs"
+        }
     }
 }

@@ -291,3 +291,12 @@ deleteMultiUrlsButton.addEventListener("click", () => {
   multiUrlsTextarea.value = "";
   chrome.storage.local.remove("multiUrls");
 });
+
+// ---- Keyboard Shortcuts ---- //
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "open-popup") {
+    chrome.browserAction.openPopup();
+  } else if (command === "save-tabs") {
+    saveButton.click();
+  }
+});
