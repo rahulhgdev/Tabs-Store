@@ -51,7 +51,9 @@ body {
 .container button.accordion-header,
 #saveTabBtn,
 #openMultiUrls,
-#deleteMultiUrls {
+#deleteMultiUrls,
+#pinTabs,
+#unpinTabs {
   width: 100%;
   padding: 10px;
   background-color: #5b6e79f5;
@@ -65,9 +67,15 @@ body {
 #deleteMultiUrls {
   margin: 12px 0 0;
 }
-#openMultiUrls, #deleteMultiUrls{
+#openMultiUrls, #deleteMultiUrls {
     width: 50%;
 }
+.pinUnpinCont{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .open-all-btn,
 .delete-btn,
 .download-btn {

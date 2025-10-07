@@ -9,6 +9,9 @@ const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 const openInGroup = document.getElementById("openInGroup");
 const openInIncognito = document.getElementById("openInIncognito");
 
+const pinTabs = document.getElementById("pinTabs");
+const unpinTabs = document.getElementById("unpinTabs");
+
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
 chrome.storage.local.get({ accordions: [] }, (result) => {
@@ -331,4 +334,21 @@ chrome.commands.onCommand.addListener((command) => {
   } else if (command === "save-tabs") {
     saveButton.click();
   }
+});
+
+// ---- Other Options ---- //
+pinTabs.addEventListener("click", () => { 
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    tabs.forEach((tab) => {
+      chrome.tabs.update(tab.id, { pinned: true });
+    });
+  });
+});
+
+unpinTabs.addEventListener("click", () => {
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    tabs.forEach((tab) => {
+      chrome.tabs.update(tab.id, { pinned: false });
+    });
+  });
 });
