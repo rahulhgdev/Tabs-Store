@@ -7,6 +7,7 @@ const openMultiUrlsButton = document.getElementById("openMultiUrls");
 const getPreserve = document.getElementById("preserveUrls");
 const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 const openInGroup = document.getElementById("openInGroup");
+const openInIncognito = document.getElementById("openInIncognito");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -242,6 +243,28 @@ chrome.storage.local.get({ openInGroupChecked: false }, (result) => {
 // Save checkbox state when changed - openInGroup
 openInGroup.addEventListener("change", () => {
   chrome.storage.local.set({ openInGroupChecked: openInGroup.checked });
+  if (openInGroup.checked) {
+    openInIncognito.checked = false;
+    openInIncognito.disabled = true;
+  } else {
+    openInIncognito.disabled = false;
+  }
+});
+
+// Store status of checkbox
+chrome.storage.local.get({ openInIncognitoChecked: false }, (result) => {
+  openInIncognito.checked = result.openInIncognitoChecked;
+});
+
+// Save checkbox state when changed - openInGroup
+openInIncognito.addEventListener("change", () => {
+  chrome.storage.local.set({ openInIncognitoChecked: openInIncognito.checked });
+  if (openInIncognito.checked) {
+    openInGroup.checked = false;
+    openInGroup.disabled = true;
+  } else {
+    openInGroup.disabled = false;
+  }
 });
 
 
@@ -255,6 +278,18 @@ openMultiUrlsButton.addEventListener("click", () => {
     seen.add(url);
     return true;
   });
+  
+  // Open in Incognito if checked
+  const incognito = openInIncognito.checked;
+  if (incognito) {
+    openInGroup.att
+    chrome.windows.create({
+      url: multiUrlList,
+      incognito: true
+    });
+    return;
+  }
+
   if (multiUrlList.length > 0) {
     if (openInGroup.checked) {
       // Open all URLs in a tab group
