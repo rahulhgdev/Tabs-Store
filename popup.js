@@ -280,7 +280,6 @@ openMultiUrlsButton.addEventListener("click", () => {
   // Open in Incognito if checked
   const incognito = openInIncognito.checked;
   if (incognito) {
-    openInGroup.att
     chrome.windows.create({
       url: multiUrlList,
       incognito: true
