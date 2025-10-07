@@ -235,38 +235,36 @@ getPreserve.addEventListener("change", () => {
   saveMultiUrlsIfPreserve();
 });
 
-// Store status of checkbox
-chrome.storage.local.get({ openInGroupChecked: false }, (result) => {
-  openInGroup.checked = result.openInGroupChecked;
-});
+// Helper for checkbox states and storage
+function handleMutualExclusion(changedCheckbox, otherCheckbox, storageKeyChanged, storageKeyOther) {
+  if (changedCheckbox.checked) {
+    otherCheckbox.checked = false;
+    otherCheckbox.disabled = true;
+  } else {
+    otherCheckbox.disabled = false;
+  }
+  chrome.storage.local.set({ [storageKeyChanged]: changedCheckbox.checked });
+}
 
-// Save checkbox state when changed - openInGroup
-openInGroup.addEventListener("change", () => {
-  chrome.storage.local.set({ openInGroupChecked: openInGroup.checked });
+// Restore checkbox states from storage
+chrome.storage.local.get({ openInGroupChecked: false, openInIncognitoChecked: false }, (result) => {
+  openInGroup.checked = result.openInGroupChecked;
+  openInIncognito.checked = result.openInIncognitoChecked;
   if (openInGroup.checked) {
     openInIncognito.checked = false;
     openInIncognito.disabled = true;
-  } else {
-    openInIncognito.disabled = false;
-  }
-});
-
-// Store status of checkbox
-chrome.storage.local.get({ openInIncognitoChecked: false }, (result) => {
-  openInIncognito.checked = result.openInIncognitoChecked;
-});
-
-// Save checkbox state when changed - openInGroup
-openInIncognito.addEventListener("change", () => {
-  chrome.storage.local.set({ openInIncognitoChecked: openInIncognito.checked });
-  if (openInIncognito.checked) {
+  } else if (openInIncognito.checked) {
     openInGroup.checked = false;
     openInGroup.disabled = true;
-  } else {
-    openInGroup.disabled = false;
   }
 });
 
+openInGroup.addEventListener("change", () => {
+  handleMutualExclusion(openInGroup, openInIncognito, "openInGroupChecked", "openInIncognitoChecked");
+});
+openInIncognito.addEventListener("change", () => {
+  handleMutualExclusion(openInIncognito, openInGroup, "openInIncognitoChecked", "openInGroupChecked");
+});
 
 // Open all URLs from textarea in new tabs
 openMultiUrlsButton.addEventListener("click", () => {
