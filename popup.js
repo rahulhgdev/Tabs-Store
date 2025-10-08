@@ -11,6 +11,8 @@ const openInIncognito = document.getElementById("openInIncognito");
 
 const pinTabs = document.getElementById("pinTabs");
 const unpinTabs = document.getElementById("unpinTabs");
+const normalReload = document.getElementById("normalReload");
+const hardReload = document.getElementById("hardReload");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -336,7 +338,7 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-// ---- Other Options ---- //
+// ---- Additional Options ---- //
 pinTabs.addEventListener("click", () => { 
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     tabs.forEach((tab) => {
@@ -349,6 +351,23 @@ unpinTabs.addEventListener("click", () => {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     tabs.forEach((tab) => {
       chrome.tabs.update(tab.id, { pinned: false });
+    });
+  });
+});
+// normal reload
+normalReload.addEventListener('click', () => {
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    tabs.forEach((tab) => {
+      chrome.tabs.reload(tab.id);
+    });
+  });
+});
+
+// hard reload - browser bypasses the local cache and forces the tab to fetch everything freshly from the server.
+hardReload.addEventListener('click', () => {
+  chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    tabs.forEach((tab) => {
+      chrome.tabs.reload(tab.id, { bypassCache: true });
     });
   });
 });
