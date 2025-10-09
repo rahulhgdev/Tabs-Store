@@ -1,19 +1,24 @@
-const saveButton = document.getElementById("saveTabBtn");
+const saveButton = document.getElementById("saveTabBtn"); // #tab1
 const clearTabs = document.getElementById("clearBtn");
 const tabList = document.getElementById("urlList");
-
-const multiUrlsTextarea = document.getElementById("multiUrls");
+const multiUrlsTextarea = document.getElementById("multiUrls"); // #tab2
 const openMultiUrlsButton = document.getElementById("openMultiUrls");
 const getPreserve = document.getElementById("preserveUrls");
 const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 const openInGroup = document.getElementById("openInGroup");
 const openInIncognito = document.getElementById("openInIncognito");
-
-const pinTabs = document.getElementById("pinTabs");
+const pinTabs = document.getElementById("pinTabs"); // #tab3
 const unpinTabs = document.getElementById("unpinTabs");
 const normalReload = document.getElementById("normalReload");
 const hardReload = document.getElementById("hardReload");
 const closeTabs = document.getElementById("closeTabs");
+
+const help = document.getElementById("help");
+
+// Help
+help.addEventListener('click', ()=>{
+  chrome.tabs.create({url: "help.html"});
+})
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage

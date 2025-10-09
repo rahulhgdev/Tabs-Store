@@ -25,10 +25,16 @@
                         <li><b>Open in Group:</b> Option to open all URLs in a new Chrome tab group. <i>(Cannot be used with Incognito mode.)</i></li>
                         <li><b>Open in Incognito:</b> Option to open all URLs in Incognito mode. <i>(Cannot be used with Group mode.)</i></li>
                         <li><b>Delete All:</b> Clear all pasted URLs.</li>
+                        <li><b>Duplicate URLs Removal:</b> Duplicate URLs are ignored and only opened once when using this feature.</li>
+                        <li><b>Mutual Exclusion:</b> "Open in Group" and "Open in Incognito" cannot be used at the same time; selecting one disables the other.</li>
                     </ul>
                 </li>
+                <li><b>Random Tab Group Color:</b> When opening URLs in a group, a random color is chosen for the Chrome tab group.</li>
                 <li><b>Pin All Tabs:</b> Instantly pin all tabs in your current window.</li>
                 <li><b>Unpin All Tabs:</b> Instantly unpin all tabs in your current window.</li>
+                <li><b>Reload Tabs:</b> Reload all tabs in your current window. You can choose normal reload or hard reload (bypass cache).</li>
+                <li><b>Close Tabs (except current):</b> Close all tabs except your currently active tab. Tooltip in the extension provides more info.</li>
+                <li><b>Help Button:</b> The help button in the popup opens this guide page in a new tab.</li>
             </ul>
         </section>
         <section>
@@ -54,6 +60,7 @@
                 <li><b>Deleting a Group</b><br>
                     <ul>
                         <li>Click the <img src="images/delete.png" alt="Delete" height="18" width="18"> button to remove a group.</li>
+                        <li>You will be asked to confirm before a group is deleted, to prevent accidental removal.</li>
                     </ul>
                 </li>
                 <li><b>Multi URLs Opener</b><br>
@@ -65,6 +72,23 @@
                         <li>Check <b>Open URLs in new group</b> to open all in a Chrome tab group. <i>This cannot be used together with Incognito mode.</i></li>
                         <li>Check <b>Open URLs in Incognito</b> to open all in Incognito mode. <i>This cannot be used together with Group mode.</i></li>
                         <li>Click <b>Delete All URLs</b> to clear the textarea and storage.</li>
+                    </ul>
+                </li>
+                <li><b>Reload Tabs</b><br>
+                    <ul>
+                        <li>Go to the <b>Additional Options</b> tab.</li>
+                        <li>Click <b>Normal Reload</b> to reload all tabs normally.</li>
+                        <li>Click <b>Hard Reload</b> to reload all tabs from the server and bypass the cache.</li>
+                    </ul>
+                </li>
+                <li><b>Close Tabs (except current)</b><br>
+                    <ul>
+                        <li>Click <b>Close all tabs</b> to close every tab except the one you're currently using. Hover the info icon to see this tip as a tooltip.</li>
+                    </ul>
+                </li>
+                <li><b>Help Guide</b><br>
+                    <ul>
+                        <li>Click the <img src="images/guide.png" alt="Guide" height="18" width="18"> help icon at the top right of the popup to open this Help & Guide page at any time.</li>
                     </ul>
                 </li>
                 <li><b>Other Options</b><br>
@@ -80,6 +104,7 @@
             <ul>
                 <li><b>Open Popup:</b> <code>Ctrl+Shift+Y</code></li>
                 <li><b>Save All Tabs:</b> <code>Ctrl+Shift+S</code></li>
+                <li><b>Keyboard Shortcuts:</b> You can customize these extension shortcuts in <b>chrome://extensions/shortcuts</b>.</li>
             </ul>
         </section>
         <section>
@@ -87,6 +112,9 @@
             <ul>
                 <li>All data is stored locally in your browser.</li>
                 <li>Extension does not sync or upload your URLs anywhere.</li>
+                <li>When opening multiple URLs, duplicate entries are automatically ignored.</li>
+                <li>"Open URLs in new group" and "Open URLs in Incognito" are mutually exclusive—selecting one will disable the other automatically.</li>
+                <li>When opening URLs as a group, a random color is assigned to the Chrome tab group for visual organization.</li>
             </ul>
         </section>
     </main>
