@@ -13,6 +13,7 @@ const pinTabs = document.getElementById("pinTabs");
 const unpinTabs = document.getElementById("unpinTabs");
 const normalReload = document.getElementById("normalReload");
 const hardReload = document.getElementById("hardReload");
+const closeTabs = document.getElementById("closeTabs");
 
 // ---- SAVE URLs ---- //
 // Load current active tab's url in chrome storage
@@ -368,6 +369,20 @@ hardReload.addEventListener('click', () => {
   chrome.tabs.query({ currentWindow: true }, (tabs) => {
     tabs.forEach((tab) => {
       chrome.tabs.reload(tab.id, { bypassCache: true });
+    });
+  });
+});
+
+closeTabs.addEventListener('click', () => {
+  chrome.tabs.query({ currentWindow: true, active: true }, (activeTabs) => {
+    const currentTabId = activeTabs[0]?.id;
+    chrome.tabs.query({ currentWindow: true }, (tabs) => {
+      const toRemove = tabs
+        .filter(tab => tab.id !== currentTabId)
+        .map(tab => tab.id);
+      if (toRemove.length > 0) {
+        chrome.tabs.remove(toRemove);
+      }
     });
   });
 });
