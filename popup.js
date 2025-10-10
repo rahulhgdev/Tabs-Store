@@ -7,6 +7,7 @@ const getPreserve = document.getElementById("preserveUrls");
 const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 const openInGroup = document.getElementById("openInGroup");
 const openInIncognito = document.getElementById("openInIncognito");
+const openInNewWindow =  document.getElementById("openInNewWindow");
 const pinTabs = document.getElementById("pinTabs"); // #tab3
 const unpinTabs = document.getElementById("unpinTabs");
 const normalReload = document.getElementById("normalReload");
@@ -246,35 +247,73 @@ getPreserve.addEventListener("change", () => {
   saveMultiUrlsIfPreserve();
 });
 
-// Helper for checkbox states and storage
-function handleMutualExclusion(changedCheckbox, otherCheckbox, storageKeyChanged, storageKeyOther) {
+// Helper for tri-checkbox mutual exclusion and storage
+function handleMutualExclusion(changedCheckbox, checkboxes, storageKeyChanged, storageKeys) {
   if (changedCheckbox.checked) {
-    otherCheckbox.checked = false;
-    otherCheckbox.disabled = true;
+    checkboxes.forEach((cb, idx) => {
+      if (cb !== changedCheckbox) {
+        cb.checked = false;
+        cb.disabled = true;
+      }
+    });
   } else {
-    otherCheckbox.disabled = false;
+    checkboxes.forEach((cb) => {
+      if (cb !== changedCheckbox) {
+        cb.disabled = false;
+      }
+    });
   }
-  chrome.storage.local.set({ [storageKeyChanged]: changedCheckbox.checked });
+  // Persist all states
+  let obj = {};
+  checkboxes.forEach((cb, idx) => {
+    obj[storageKeys[idx]] = cb.checked;
+  });
+  chrome.storage.local.set(obj);
 }
 
-// Restore checkbox states from storage
-chrome.storage.local.get({ openInGroupChecked: false, openInIncognitoChecked: false }, (result) => {
-  openInGroup.checked = result.openInGroupChecked;
-  openInIncognito.checked = result.openInIncognitoChecked;
-  if (openInGroup.checked) {
-    openInIncognito.checked = false;
-    openInIncognito.disabled = true;
-  } else if (openInIncognito.checked) {
-    openInGroup.checked = false;
-    openInGroup.disabled = true;
+// Restore checkbox states from storage (all three)
+chrome.storage.local.get({ openInGroupChecked: false, openInIncognitoChecked: false, openInNewWindowChecked: false }, (result) => {
+    openInGroup.checked = result.openInGroupChecked;
+    openInIncognito.checked = result.openInIncognitoChecked;
+    openInNewWindow.checked = result.openInNewWindowChecked;
+
+    if (openInGroup.checked) {
+      openInIncognito.checked = false;
+      openInNewWindow.checked = false;
+      openInIncognito.disabled = true;
+      openInNewWindow.disabled = true;
+      openInGroup.disabled = false;
+    } else if (openInIncognito.checked) {
+      openInGroup.checked = false;
+      openInNewWindow.checked = false;
+      openInGroup.disabled = true;
+      openInNewWindow.disabled = true;
+      openInIncognito.disabled = false;
+    } else if (openInNewWindow.checked) {
+      openInGroup.checked = false;
+      openInIncognito.checked = false;
+      openInGroup.disabled = true;
+      openInIncognito.disabled = true;
+      openInNewWindow.disabled = false;
+    } else {
+      openInGroup.disabled = false;
+      openInIncognito.disabled = false;
+      openInNewWindow.disabled = false;
+    }
   }
-});
+);
+
+const triCheckboxArr = [openInGroup, openInIncognito, openInNewWindow];
+const triStorageArr = ["openInGroupChecked", "openInIncognitoChecked", "openInNewWindowChecked"];
 
 openInGroup.addEventListener("change", () => {
-  handleMutualExclusion(openInGroup, openInIncognito, "openInGroupChecked", "openInIncognitoChecked");
+  handleMutualExclusion(openInGroup, triCheckboxArr, "openInGroupChecked", triStorageArr);
 });
 openInIncognito.addEventListener("change", () => {
-  handleMutualExclusion(openInIncognito, openInGroup, "openInIncognitoChecked", "openInGroupChecked");
+  handleMutualExclusion(openInIncognito, triCheckboxArr, "openInIncognitoChecked", triStorageArr);
+});
+openInNewWindow.addEventListener("change", () => {
+  handleMutualExclusion(openInNewWindow, triCheckboxArr, "openInNewWindowChecked", triStorageArr);
 });
 
 // Open all URLs from textarea in new tabs
@@ -295,6 +334,17 @@ openMultiUrlsButton.addEventListener("click", () => {
       url: multiUrlList,
       incognito: true
     });
+    return;
+  }
+
+  // Open in new window if checked
+  const newWindow = openInNewWindow.checked;
+  if (newWindow) {
+    if (multiUrlList.length > 0) {
+      chrome.windows.create({
+        url: multiUrlList
+      });
+    }
     return;
   }
 
