@@ -17,24 +17,36 @@
             <ul>
                 <li><b>Save All Tabs:</b> Save all open tabs in your current window as a named group (accordion) with the date.</li>
                 <li><b>Restore Tabs:</b> Instantly open all URLs from a saved group in new tabs.</li>
-                <li><b>Delete Groups:</b> Remove any saved group of URLs.</li>
-                <li><b>Download URLs:</b> Download the URLs of a group as an Excel file.</li>
+                <li><b>Delete Groups:</b> Remove any saved group of URLs with confirmation dialog.</li>
+                <li><b>Download URLs:</b> Download the URLs of a group as an Excel (.xlsx) file with proper formatting.</li>
                 <li><b>Multi URLs Opener:</b> Paste multiple URLs and open them all at once.<br>
                     <ul>
-                        <li><b>Preserve URLs:</b> Option to keep the pasted URLs for next time.</li>
-                        <li><b>Open in Group:</b> Option to open all URLs in a new Chrome tab group. <i>(Cannot be used with Incognito mode.)</i></li>
+                        <li><b>Preserve URLs:</b> Option to keep the pasted URLs for next time using local storage.</li>
+                        <li><b>Open in Group:</b> Option to open all URLs in a new Chrome tab group with random color assignment. <i>(Cannot be used with Incognito mode.)</i></li>
                         <li><b>Open in Incognito:</b> Option to open all URLs in Incognito mode. <i>(Cannot be used with Group mode.)</i></li>
-                        <li><b>Delete All:</b> Clear all pasted URLs.</li>
-                        <li><b>Duplicate URLs Removal:</b> Duplicate URLs are ignored and only opened once when using this feature.</li>
-                        <li><b>Mutual Exclusion:</b> "Open in Group" and "Open in Incognito" cannot be used at the same time; selecting one disables the other.</li>
+                        <li><b>Open in New Window:</b> Option to open all URLs in a new browser window. <i>(Cannot be used with Group or Incognito mode.)</i></li>
+                        <li><b>Delete All:</b> Clear all pasted URLs from textarea and storage.</li>
+                        <li><b>Duplicate URLs Removal:</b> Duplicate URLs are automatically ignored and only opened once when using this feature.</li>
+                        <li><b>Mutual Exclusion:</b> "Open in Group", "Open in Incognito", and "Open in New Window" are mutually exclusive—selecting one disables the others.</li>
                     </ul>
                 </li>
-                <li><b>Random Tab Group Color:</b> When opening URLs in a group, a random color is chosen for the Chrome tab group.</li>
+                <li><b>URLs Scheduler:</b> Schedule URLs to open automatically at specific times.<br>
+                    <ul>
+                        <li><b>One Time Scheduler:</b> Schedule URLs to open once at a specific date and time in the future.</li>
+                        <li><b>Daily Scheduler:</b> Schedule URLs to open daily at a specific time.</li>
+                        <li><b>URLs Preservation:</b> Scheduled URLs are automatically saved and restored when reopening the extension.</li>
+                        <li><b>Date/Time Validation:</b> Prevents scheduling in the past and validates input fields.</li>
+                        <li><b>Cancel Options:</b> Cancel scheduled operations before confirmation.</li>
+                    </ul>
+                </li>
+                <li><b>Random Tab Group Color:</b> When opening URLs in a group, a random color is chosen from 9 available colors for the Chrome tab group.</li>
                 <li><b>Pin All Tabs:</b> Instantly pin all tabs in your current window.</li>
                 <li><b>Unpin All Tabs:</b> Instantly unpin all tabs in your current window.</li>
                 <li><b>Reload Tabs:</b> Reload all tabs in your current window. You can choose normal reload or hard reload (bypass cache).</li>
                 <li><b>Close Tabs (except current):</b> Close all tabs except your currently active tab. Tooltip in the extension provides more info.</li>
+                <li><b>Keyboard Shortcuts:</b> Quick access to extension features using keyboard combinations.</li>
                 <li><b>Help Button:</b> The help button in the popup opens this guide page in a new tab.</li>
+                <li><b>Local Storage:</b> All data is stored locally in your browser with no external data transmission.</li>
             </ul>
         </section>
         <section>
@@ -68,10 +80,33 @@
                         <li>Go to the <b>Multi URLs Opener</b> tab.</li>
                         <li>Paste or type URLs (one per line) in the textarea.</li>
                         <li>Click <b>Open All URLs</b> to open them. Duplicates are ignored by default.</li>
-                        <li>Check <b>Preserve URLs</b> to keep your list for next time.</li>
-                        <li>Check <b>Open URLs in new group</b> to open all in a Chrome tab group. <i>This cannot be used together with Incognito mode.</i></li>
-                        <li>Check <b>Open URLs in Incognito</b> to open all in Incognito mode. <i>This cannot be used together with Group mode.</i></li>
+                        <li>Check <b>Preserve URLs</b> to keep your list for next time using local storage.</li>
+                        <li>Check <b>Open URLs in new group</b> to open all in a Chrome tab group with random color. <i>This cannot be used together with Incognito or New Window mode.</i></li>
+                        <li>Check <b>Open URLs in Incognito</b> to open all in Incognito mode. <i>This cannot be used together with Group or New Window mode.</i></li>
+                        <li>Check <b>Open URLs in new window</b> to open all in a new browser window. <i>This cannot be used together with Group or Incognito mode.</i></li>
                         <li>Click <b>Delete All URLs</b> to clear the textarea and storage.</li>
+                    </ul>
+                </li>
+                <li><b>URLs Scheduler</b><br>
+                    <ul>
+                        <li>Go to the <b>URLs Scheduler</b> tab.</li>
+                        <li>Paste or type URLs (one per line) in the textarea. URLs are automatically saved to storage.</li>
+                        <li><b>One Time Scheduler:</b>
+                            <ul>
+                                <li>Click <b>Schedule One Time</b> to show date/time picker.</li>
+                                <li>Select a future date and time.</li>
+                                <li>Click <b>Confirm Schedule</b> to set the alarm.</li>
+                                <li>Use <b>Cancel</b> to abort the scheduling process.</li>
+                            </ul>
+                        </li>
+                        <li><b>Daily Scheduler:</b>
+                            <ul>
+                                <li>Click <b>Schedule Daily</b> to show time picker.</li>
+                                <li>Select a time for daily execution.</li>
+                                <li>Click <b>Confirm Schedule</b> to set the recurring alarm.</li>
+                                <li>Use <b>Cancel</b> to abort the scheduling process.</li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li><b>Reload Tabs</b><br>
@@ -102,19 +137,28 @@
         <section>
             <h2>Shortcuts</h2>
             <ul>
-                <li><b>Open Popup:</b> <code>Ctrl+Shift+Y</code></li>
-                <li><b>Save All Tabs:</b> <code>Ctrl+Shift+S</code></li>
+                <li><b>Open Popup:</b> <code>Ctrl+Shift+Y</code> - Opens the TabStore extension popup</li>
+                <li><b>Save All Tabs:</b> <code>Ctrl+Shift+S</code> - Quickly saves all current tabs with auto-generated name "Quick Save_X"</li>
                 <li><b>Keyboard Shortcuts:</b> You can customize these extension shortcuts in <b>chrome://extensions/shortcuts</b>.</li>
+                <li><b>Quick Save Feature:</b> When using Ctrl+Shift+S, tabs are automatically saved with names like "Quick Save_1", "Quick Save_2", etc.</li>
             </ul>
         </section>
         <section>
             <h2>Notes</h2>
             <ul>
-                <li>All data is stored locally in your browser.</li>
-                <li>Extension does not sync or upload your URLs anywhere.</li>
-                <li>When opening multiple URLs, duplicate entries are automatically ignored.</li>
-                <li>"Open URLs in new group" and "Open URLs in Incognito" are mutually exclusive—selecting one will disable the other automatically.</li>
-                <li>When opening URLs as a group, a random color is assigned to the Chrome tab group for visual organization.</li>
+                <li>All data is stored locally in your browser using Chrome's local storage API.</li>
+                <li>Extension does not sync or upload your URLs anywhere—complete privacy protection.</li>
+                <li>When opening multiple URLs, duplicate entries are automatically ignored and only opened once.</li>
+                <li>"Open URLs in new group", "Open URLs in Incognito", and "Open URLs in new window" are mutually exclusive—selecting one will disable the others automatically.</li>
+                <li>When opening URLs as a group, a random color is assigned from 9 available colors (grey, blue, red, yellow, green, pink, purple, cyan, orange) to the Chrome tab group for visual organization.</li>
+                <li>Scheduled URLs are stored using Chrome's alarms API and will execute even if the browser is closed (when reopened).</li>
+                <li>One-time scheduled alarms are automatically cleaned up after execution.</li>
+                <li>Daily scheduled alarms repeat every 24 hours from the scheduled time.</li>
+                <li>URLs in scheduled textarea are automatically saved as you type and restored when reopening the extension.</li>
+                <li>Excel downloads use proper XML formatting for compatibility with Microsoft Excel and other spreadsheet applications.</li>
+                <li>Hard reload bypasses browser cache and forces fresh content from servers—useful for development and troubleshooting.</li>
+                <li>Extension automatically opens this help page when first installed to guide new users.</li>
+                <li>All checkbox states and preferences are preserved between extension sessions.</li>
             </ul>
         </section>
     </main>
