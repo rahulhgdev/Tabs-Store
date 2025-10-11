@@ -1,4 +1,4 @@
-const help = document.getElementById("help");
+const help = document.getElementById("help"); //help
 const saveButton = document.getElementById("saveTabBtn"); // #tab1
 const clearTabs = document.getElementById("clearBtn");
 const tabList = document.getElementById("urlList");
@@ -329,6 +329,12 @@ openInNewWindow.addEventListener("change", () => {
 // Open all URLs from textarea in new tabs
 openMultiUrlsButton.addEventListener("click", () => {
   let multiUrlList = multiUrlsTextarea.value.split("\n").map((url) => url.trim()).filter((url) => url !== "");
+
+  if (multiUrlList.length === 0) {
+    alert("Please enter URLs!");
+    return;
+  }
+
   // Remove duplicates, keep only first occurrence
   const seen = new Set();
   multiUrlList = multiUrlList.filter(url => {
