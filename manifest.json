@@ -3,7 +3,7 @@
     "name": "Tab Store",
     "version": "1.0.0",
     "description": "A Chrome extension to save and manage your tabs.",
-    "permissions": ["tabs", "tabGroups", "storage"],
+    "permissions": ["tabs", "tabGroups", "storage", "alarms"],
     "background": {
         "service_worker": "background.js"
     },

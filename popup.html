@@ -51,9 +51,47 @@
                     </div>
                 </div>
             </div>
+
             <input type="radio" name="tabs" id="tab3" />
-            <label for="tab3" class="tab-label">Additional Options</label>
+            <label for="tab3" class="tab-label">URLs Scheduler</label>
             <div class="tab-content" id="content3">
+                <h2>Enter URLs below:</h2>
+                <textarea id="multiScheduleUrls"></textarea>
+                <div class="scheduler-options">
+                    <div class="scheduler-section">
+                        <h3>One Time Scheduler</h3>
+                        <div id="oneTimePicker" class="datetime-picker-container" style="display: none;">
+                            <div class="datetime-picker">
+                                <label for="scheduleDate">Select Date:</label>
+                                <input type="date" id="scheduleDate" />
+                            </div>
+                            <div class="datetime-picker">
+                                <label for="scheduleTime">Select Time:</label>
+                                <input type="time" id="scheduleTime" />
+                            </div>
+                            <button id="cancelOneTime" class="cancel-btn">Cancel</button>
+                        </div>
+                        <button id="oneTimeScheduler">Schedule One Time</button>
+                    </div>
+                    
+                    <div class="scheduler-section">
+                        <h3>Daily Scheduler</h3>
+                        <div id="dailyPicker" class="datetime-picker-container" style="display: none;">
+                            <div class="datetime-picker">
+                                <label for="dailyTime">Select Time:</label>
+                                <input type="time" id="dailyTime" />
+                            </div>
+                            <button id="cancelDaily" class="cancel-btn">Cancel</button>
+                        </div>
+                        <button id="dailyScheduler">Schedule Daily</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <input type="radio" name="tabs" id="tab4" />
+            <label for="tab4" class="tab-label">Additional Options</label>
+            <div class="tab-content" id="content4">
                 <h2>Pin/Unpin Tabs</h2>
                 <div class="pinUnpinCont">
                     <button id="pinTabs">Pin all tabs</button>

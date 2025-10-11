@@ -2,6 +2,21 @@ chrome.runtime.onInstalled.addListener(()=>{
   chrome.tabs.create({url: "help.html"});
 })
 
+// Handle scheduled URL opening
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name.startsWith('scheduled_urls_')) {
+    chrome.storage.local.get(['scheduledUrls'], (result) => {
+      const urls = result.scheduledUrls || [];
+      if (urls.length > 0) {
+        // Open each URL in a new tab
+        urls.forEach((url) => {
+          chrome.tabs.create({ url, active: false });
+        });
+      }
+    });
+  }
+});
+
 chrome.commands.onCommand.addListener(function(command) {
   if (command === "save-tabs") {
     chrome.tabs.query({ currentWindow: true }, (tabs) => {

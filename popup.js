@@ -1,3 +1,4 @@
+const help = document.getElementById("help");
 const saveButton = document.getElementById("saveTabBtn"); // #tab1
 const clearTabs = document.getElementById("clearBtn");
 const tabList = document.getElementById("urlList");
@@ -8,14 +9,23 @@ const deleteMultiUrlsButton = document.getElementById("deleteMultiUrls");
 const openInGroup = document.getElementById("openInGroup");
 const openInIncognito = document.getElementById("openInIncognito");
 const openInNewWindow =  document.getElementById("openInNewWindow");
-const pinTabs = document.getElementById("pinTabs"); // #tab3
+const oneTimeScheduler = document.getElementById('oneTimeScheduler'); // #tab3
+const dailyScheduler = document.getElementById('dailyScheduler');
+const multiScheduleUrls = document.getElementById('multiScheduleUrls');
+const scheduleDate = document.getElementById('scheduleDate');
+const scheduleTime = document.getElementById('scheduleTime');
+const dailyTime = document.getElementById('dailyTime');
+const oneTimePicker = document.getElementById('oneTimePicker');
+const dailyPicker = document.getElementById('dailyPicker');
+const cancelOneTime = document.getElementById('cancelOneTime');
+const cancelDaily = document.getElementById('cancelDaily');
+const pinTabs = document.getElementById("pinTabs"); // #tab4
 const unpinTabs = document.getElementById("unpinTabs");
 const normalReload = document.getElementById("normalReload");
 const hardReload = document.getElementById("hardReload");
 const closeTabs = document.getElementById("closeTabs");
 
-const help = document.getElementById("help");
-
+ 
 // Help
 help.addEventListener('click', ()=>{
   chrome.tabs.create({url: "help.html"});
@@ -385,13 +395,138 @@ deleteMultiUrlsButton.addEventListener("click", () => {
   chrome.storage.local.remove("multiUrls");
 });
 
-// ---- Keyboard Shortcuts ---- //
-chrome.commands.onCommand.addListener((command) => {
-  if (command === "open-popup") {
-    chrome.browserAction.openPopup();
-  } else if (command === "save-tabs") {
-    saveButton.click();
+// ---- URLs scheduler ---- //
+
+// Cancel button
+cancelOneTime.addEventListener('click', () => {
+  oneTimePicker.style.display = 'none'; 
+  oneTimeScheduler.textContent = 'Schedule One Time';
+  scheduleDate.value = '';
+  scheduleTime.value = '';
+});
+
+cancelDaily.addEventListener('click', () => {
+  dailyPicker.style.display = 'none';
+  dailyScheduler.textContent = 'Schedule Daily';
+  dailyTime.value = '';
+});
+
+// Preserve scheduled URLs in storage
+function saveScheduledUrls() {
+  const urls = multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
+  chrome.storage.local.set({ scheduledUrlsText: urls });
+}
+
+// Restore scheduled URLs from storage on popup load
+function restoreScheduledUrls() {
+  chrome.storage.local.get(['scheduledUrlsText'], (result) => {
+    if (result.scheduledUrlsText && result.scheduledUrlsText.length > 0) {
+      multiScheduleUrls.value = result.scheduledUrlsText.join("\n");
+    }
+  });
+}
+
+// Save URLs when textarea changes
+multiScheduleUrls.addEventListener("input", saveScheduledUrls);
+
+// Restore URLs on popup load
+restoreScheduledUrls();
+
+// One-time scheduler
+oneTimeScheduler.addEventListener("click", () => {
+  const urls = multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
+  
+  if (urls.length === 0) {
+    alert("Please enter URLs to schedule!");
+    return;
   }
+  
+  if (oneTimePicker.style.display === 'none') {
+    oneTimePicker.style.display = 'block';
+    oneTimeScheduler.textContent = 'Confirm Schedule';
+    return;
+  }
+  
+  const selectedDate = scheduleDate.value;
+  const selectedTime = scheduleTime.value;
+  if (!selectedDate || !selectedTime) {
+    alert("Please select both date and time!");
+    return;
+  }
+  
+  const scheduledDateTime = new Date(`${selectedDate}T${selectedTime}`);
+  const now = new Date();
+  if (scheduledDateTime <= now) {
+    alert("Please select a future date and time!");
+    return;
+  }
+  
+  // Save URLs to storage
+  chrome.storage.local.set({ scheduledUrls: urls }, () => {
+    // Create alarm for one-time scheduling
+    const alarmName = `scheduled_urls_onetime_${Date.now()}`;
+    chrome.alarms.create(alarmName, {
+      when: scheduledDateTime.getTime()
+    });
+    
+    alert(`URLs scheduled to open on ${selectedDate} at ${selectedTime}`);
+    
+    oneTimePicker.style.display = 'none';
+    oneTimeScheduler.textContent = 'Schedule One Time';
+    scheduleDate.value = "";
+    scheduleTime.value = "";
+  });
+});
+
+// Daily scheduler
+dailyScheduler.addEventListener("click", () => {
+  const urls = multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
+  
+  if (urls.length === 0) {
+    alert("Please enter URLs to schedule!");
+    return;
+  }
+  
+  if (dailyPicker.style.display === 'none') {
+    dailyPicker.style.display = 'block';
+    dailyScheduler.textContent = 'Confirm Schedule';
+    return;
+  }
+  
+  const selectedTime = dailyTime.value;
+  if (!selectedTime) {
+    alert("Please select a time!");
+    return;
+  }
+  
+  // Parse the time
+  const [hours, minutes] = selectedTime.split(':').map(Number);
+  
+  // Calculate the next occurrence of the specified time
+  const now = new Date();
+  const scheduledTime = new Date();
+  scheduledTime.setHours(hours, minutes, 0, 0);
+  
+  // If the time has already passed today, schedule for tomorrow
+  if (scheduledTime <= now) {
+    scheduledTime.setDate(scheduledTime.getDate() + 1);
+  }
+  
+  // Save URLs to storage
+  chrome.storage.local.set({ scheduledUrls: urls }, () => {
+    // Create alarm for daily scheduling
+    const alarmName = `scheduled_urls_daily_${Date.now()}`;
+    chrome.alarms.create(alarmName, {
+      when: scheduledTime.getTime(),
+      periodInMinutes: 24 * 60 // Repeat every 24 hours
+    });
+    
+    alert(`URLs scheduled to open daily at ${selectedTime}`);
+    
+    dailyPicker.style.display = 'none';
+    dailyScheduler.textContent = 'Schedule Daily';
+    dailyTime.value = "";
+  });
 });
 
 // ---- Additional Options ---- //
@@ -440,4 +575,13 @@ closeTabs.addEventListener('click', () => {
       }
     });
   });
+});
+
+// ---- Keyboard Shortcuts ---- //
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "open-popup") {
+    chrome.browserAction.openPopup();
+  } else if (command === "save-tabs") {
+    saveButton.click();
+  }
 });
