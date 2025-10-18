@@ -61,6 +61,7 @@ body {
 .container button.accordion-header,
 #saveTabBtn,
 #openMultiUrls,
+#extractURLs,
 #deleteMultiUrls,
 #pinTabs,
 #unpinTabs,
@@ -79,12 +80,13 @@ body {
 }
 #saveTabBtn,
 #openMultiUrls,
+#extractURLs,
 #deleteMultiUrls,
 #oneTimeScheduler,
 #dailyScheduler {
   margin: 12px 0 0;
 }
-#openMultiUrls, #deleteMultiUrls {
+#openMultiUrls, #extractURLs, #deleteMultiUrls {
     width: 50%;
 }
 .pinUnpinCont, .tabsReload{
@@ -103,6 +105,7 @@ body {
 .container button.accordion-header:hover,
 #saveTabBtn:hover,
 #openMultiUrls:hover,
+#extractURLs:hover,
 #deleteMultiUrls:hover,
 #pinTabs:hover,
 #unpinTabs:hover,
@@ -413,6 +416,7 @@ textarea#multiScheduleUrls {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
+  margin-top: 0;
   transition: background-color 0.2s;
 }
 
