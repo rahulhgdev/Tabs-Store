@@ -164,7 +164,6 @@ textarea#multiScheduleUrls {
   min-height: 300px;
   flex-grow: 1;
   resize: none;
-  white-space: pre;
   overflow: auto;
   outline: none;
   background: #efefef;
