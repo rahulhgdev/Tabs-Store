@@ -18,35 +18,35 @@
                 <li><b>Save All Tabs:</b> Save all open tabs in your current window as a named group (accordion) with the date.</li>
                 <li><b>Restore Tabs:</b> Instantly open all URLs from a saved group in new tabs.</li>
                 <li><b>Delete Groups:</b> Remove any saved group of URLs with confirmation dialog.</li>
-                <li><b>Download URLs:</b> Download the URLs of a group as an Excel (.xlsx) file with proper formatting.</li>
+                <li><b>Download URLs:</b> Download the URLs of a group as an Excel (.xlsx) file. The export is done with true Excel XML formatting, ensuring best compatibility with Microsoft Excel and Google Sheets.</li>
                 <li><b>Multi URLs Opener:</b> Paste multiple URLs and open them all at once.<br>
                     <ul>
-                        <li><b>Preserve URLs:</b> Option to keep the pasted URLs for next time using local storage.</li>
-                        <li><b>Open in Group:</b> Option to open all URLs in a new Chrome tab group with random color assignment. <i>(Cannot be used with Incognito mode.)</i></li>
-                        <li><b>Open in Incognito:</b> Option to open all URLs in Incognito mode. <i>(Cannot be used with Group mode.)</i></li>
-                        <li><b>Open in New Window:</b> Option to open all URLs in a new browser window. <i>(Cannot be used with Group or Incognito mode.)</i></li>
-                        <li><b>Delete All:</b> Clear all pasted URLs from textarea and storage.</li>
-                        <li><b>Duplicate URLs Removal:</b> Duplicate URLs are automatically ignored and only opened once when using this feature.</li>
-                        <li><b>Mutual Exclusion:</b> "Open in Group", "Open in Incognito", and "Open in New Window" are mutually exclusive—selecting one disables the others.</li>
+                        <li><b>Preserve URLs:</b> Option to keep the pasted URLs for next time using local storage. When unchecked, previously saved URLs are cleared from storage automatically.</li>
+                        <li><b>Extract URLs:</b> Use the <b>Extract URLs from text</b> button to parse any text and pull out valid URLs automatically (smart regex-based parsing).</li>
+                        <li><b>Open in Group:</b> Open all URLs in a new Chrome tab group with random color assignment. <i>(Cannot be used with Incognito or New Window mode; selection disables the other two options.)</i></li>
+                        <li><b>Open in Incognito:</b> Open in Incognito mode. <i>Mutually exclusive—disables Group and New Window options if checked.</i></li>
+                        <li><b>Open in New Window:</b> Open in a new regular browser window, mutually exclusive with the other two options.</li>
+                        <li><b>Delete All:</b> Clear all pasted URLs from textarea and local storage.</li>
+                        <li><b>Duplicate URLs Removal:</b> Duplicate URLs are automatically ignored and only opened once.</li>
+                        <li><b>Mutual Exclusion/Disabling:</b> The three "Open in..." checkboxes are mutually exclusive: selecting one disables the others for clarity and to prevent conflicts.</li>
                     </ul>
                 </li>
                 <li><b>URLs Scheduler:</b> Schedule URLs to open automatically at specific times.<br>
                     <ul>
-                        <li><b>One Time Scheduler:</b> Schedule URLs to open once at a specific date and time in the future.</li>
-                        <li><b>Daily Scheduler:</b> Schedule URLs to open daily at a specific time.</li>
-                        <li><b>URLs Preservation:</b> Scheduled URLs are automatically saved and restored when reopening the extension.</li>
-                        <li><b>Date/Time Validation:</b> Prevents scheduling in the past and validates input fields.</li>
-                        <li><b>Cancel Options:</b> Cancel scheduled operations before confirmation.</li>
+                        <li><b>One Time Scheduler:</b> Open URLs once—date and time pickers default to the current date and time, and are reset to 'now' if canceled before confirm.</li>
+                        <li><b>Daily Scheduler:</b> Schedule recurring launches at a chosen time each day—defaults to the current time every time the picker is shown or canceled.</li>
+                        <li><b>URLs Preservation:</b> Scheduled URLs are auto-saved and restored as you type or open the scheduler.</li>
+                        <li><b>Date/Time Validation:</b> Prevents scheduling in the past and validates required time fields.</li>
+                        <li><b>Cancel Options:</b> Cancel at any time before confirming, reverting the pickers to their defaults.</li>
                     </ul>
                 </li>
-                <li><b>Random Tab Group Color:</b> When opening URLs in a group, a random color is chosen from 9 available colors for the Chrome tab group.</li>
-                <li><b>Pin All Tabs:</b> Instantly pin all tabs in your current window.</li>
-                <li><b>Unpin All Tabs:</b> Instantly unpin all tabs in your current window.</li>
-                <li><b>Reload Tabs:</b> Reload all tabs in your current window. You can choose normal reload or hard reload (bypass cache).</li>
-                <li><b>Close Tabs (except current):</b> Close all tabs except your currently active tab. Tooltip in the extension provides more info.</li>
-                <li><b>Keyboard Shortcuts:</b> Quick access to extension features using keyboard combinations.</li>
-                <li><b>Help Button:</b> The help button in the popup opens this guide page in a new tab.</li>
-                <li><b>Local Storage:</b> All data is stored locally in your browser with no external data transmission.</li>
+                <li><b>Random Tab Group Color:</b> When opening URLs in a group, a random color is chosen from 9 available Chrome group colors for clarity.</li>
+                <li><b>Pin/Unpin All Tabs:</b> Instantly (un)pin all tabs in your window.</li>
+                <li><b>Reload Tabs:</b> Reload all tabs in your window with normal or cache-bypassing hard reload.</li>
+                <li><b>Close Tabs (except current):</b> Close all tabs except your current, with tooltip guidance in the UI.</li>
+                <li><b>Keyboard Shortcuts:</b> Use keyboard combinations (<code>Ctrl+Shift+Y</code> and <code>Ctrl+Shift+S</code> by default; see Shortcuts section) to quickly open popup or autosave all tabs.</li>
+                <li><b>Help Button:</b> The popup's help button opens this guide in a new tab at any time.</li>
+                <li><b>Local Storage:</b> All data and user preferences are kept entirely in your browser and never shared externally.</li>
             </ul>
         </section>
         <section>
@@ -56,7 +56,7 @@
                     <ul>
                         <li>Go to the <b>Save Tab's URLs</b> tab in the extension popup.</li>
                         <li>Click <b>Add URLs</b> to save all open tabs. You will be prompted to name the group.</li>
-                        <li>Your saved groups will appear as accordions. Expand to see URLs.</li>
+                        <li>Your saved groups will appear as accordions. Expand any group for options to open all URLs, download to Excel, or delete the group (with confirmation).</li>
                     </ul>
                 </li>
                 <li><b>Restoring Tabs</b><br>
@@ -66,70 +66,57 @@
                 </li>
                 <li><b>Downloading URLs</b><br>
                     <ul>
-                        <li>Click the <img src="images/downloads.png" alt="Download" height="18" width="18"> button to download the group's URLs as an Excel file.</li>
+                        <li>Click the <img src="images/downloads.png" alt="Download" height="18" width="18"> button to download the group's URLs as an Excel file with standard Excel XML formatting. The file is compatible with Microsoft Excel, Google Sheets, and others.</li>
                     </ul>
                 </li>
                 <li><b>Deleting a Group</b><br>
                     <ul>
-                        <li>Click the <img src="images/delete.png" alt="Delete" height="18" width="18"> button to remove a group.</li>
-                        <li>You will be asked to confirm before a group is deleted, to prevent accidental removal.</li>
+                        <li>Click the <img src="images/delete.png" alt="Delete" height="18" width="18"> button to remove a group. Confirmation ensures accidental deletions are avoided.</li>
                     </ul>
                 </li>
                 <li><b>Multi URLs Opener</b><br>
                     <ul>
                         <li>Go to the <b>Multi URLs Opener</b> tab.</li>
-                        <li>Paste or type URLs (one per line) in the textarea.</li>
-                        <li>Click <b>Open All URLs</b> to open them. Duplicates are ignored by default.</li>
-                        <li>Check <b>Preserve URLs</b> to keep your list for next time using local storage.</li>
-                        <li>Check <b>Open URLs in new group</b> to open all in a Chrome tab group with random color. <i>This cannot be used together with Incognito or New Window mode.</i></li>
-                        <li>Check <b>Open URLs in Incognito</b> to open all in Incognito mode. <i>This cannot be used together with Group or New Window mode.</i></li>
-                        <li>Check <b>Open URLs in new window</b> to open all in a new browser window. <i>This cannot be used together with Group or Incognito mode.</i></li>
-                        <li>Click <b>Delete All URLs</b> to clear the textarea and storage.</li>
+                        <li>Paste or type URLs (one per line) in the textarea. Use <b>Extract URLs</b> to automatically parse and pull out URLs from any copied/pasted text.</li>
+                        <li>Click <b>Open All</b> to open all listed URLs (duplicates are ignored).</li>
+                        <li>Use checkboxes for <b>Preserve URLs</b> (auto-restores/culls URLs from storage), <b>Open in new group</b> (random color, can’t combine with others), <b>Incognito</b>, or <b>new window</b>. Only one of these three "Open in..." options may be selected at a time.</li>
+                        <li>If you check one of those three, the other two are disabled for mutual exclusion clarity.</li>
+                        <li>Click <b>Delete All</b> to clear textarea and storage instantly.</li>
                     </ul>
                 </li>
                 <li><b>URLs Scheduler</b><br>
                     <ul>
                         <li>Go to the <b>URLs Scheduler</b> tab.</li>
-                        <li>Paste or type URLs (one per line) in the textarea. URLs are automatically saved to storage.</li>
-                        <li><b>One Time Scheduler:</b>
-                            <ul>
-                                <li>Click <b>Schedule One Time</b> to show date/time picker.</li>
-                                <li>Select a future date and time.</li>
-                                <li>Click <b>Confirm Schedule</b> to set the alarm.</li>
-                                <li>Use <b>Cancel</b> to abort the scheduling process.</li>
-                            </ul>
-                        </li>
-                        <li><b>Daily Scheduler:</b>
-                            <ul>
-                                <li>Click <b>Schedule Daily</b> to show time picker.</li>
-                                <li>Select a time for daily execution.</li>
-                                <li>Click <b>Confirm Schedule</b> to set the recurring alarm.</li>
-                                <li>Use <b>Cancel</b> to abort the scheduling process.</li>
-                            </ul>
-                        </li>
+                        <li>Paste/type URLs (one per line) into the textarea (auto-preserved to storage).</li>
+                        <li><b>One Time Schedule:</b> Click <b>Schedule One Time</b> to show date/time picker (defaults to NOW and resets to current if canceled). Choose a future date and time, then <b>Confirm Schedule</b> to save.</li>
+                        <li><b>Daily Schedule:</b> Click <b>Schedule Daily</b> to show time picker (defaults to current time and resets if canceled). Pick your recurring time, then <b>Confirm Schedule</b> to set it.</li>
+                        <li>Cancel at any point before confirming to revert to safe defaults for scheduling.</li>
+                        <li>All times and schedules are validated: you cannot select a past date/time.</li>
                     </ul>
                 </li>
                 <li><b>Reload Tabs</b><br>
                     <ul>
-                        <li>Go to the <b>Additional Options</b> tab.</li>
-                        <li>Click <b>Normal Reload</b> to reload all tabs normally.</li>
-                        <li>Click <b>Hard Reload</b> to reload all tabs from the server and bypass the cache.</li>
+                        <li>Switch to <b>Additional Options</b>. Choose <b>Normal Reload</b> to update all tabs (normal cache), or <b>Hard Reload</b> to force tabs to reload freshly (bypasses browser cache).</li>
                     </ul>
                 </li>
                 <li><b>Close Tabs (except current)</b><br>
                     <ul>
-                        <li>Click <b>Close all tabs</b> to close every tab except the one you're currently using. Hover the info icon to see this tip as a tooltip.</li>
+                        <li>Click <b>Close all tabs</b> to close every tab in the window except for your currently active tab. A tooltip in the UI explains this clearly for reference.</li>
                     </ul>
                 </li>
                 <li><b>Help Guide</b><br>
                     <ul>
-                        <li>Click the <img src="images/guide.png" alt="Guide" height="18" width="18"> help icon at the top right of the popup to open this Help & Guide page at any time.</li>
+                        <li>Click the guide icon <img src="images/guide.png" alt="Guide" height="18" width="18"> in the popup’s header at any time to open this help/guide in a new tab.</li>
                     </ul>
                 </li>
                 <li><b>Other Options</b><br>
                     <ul>
-                        <li>Click <b>Pin All Tabs</b> to pin every tab in your current window.</li>
-                        <li>Click <b>Unpin All Tabs</b> to unpin every tab in your current window.</li>
+                        <li>Pin/Unpin all tabs in your window instantly using the <b>Pin All</b> or <b>Unpin All</b> buttons under <b>Additional Options</b>.</li>
+                    </ul>
+                </li>
+                <li><b>Keyboard Shortcuts</b><br>
+                    <ul>
+                        <li>Press <code>Ctrl+Shift+Y</code> to open the popup quickly. Press <code>Ctrl+Shift+S</code> to instantly save all current tabs without prompting (name is auto-generated as "Quick Save_X").</li>
                     </ul>
                 </li>
             </ol>

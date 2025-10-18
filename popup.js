@@ -422,14 +422,13 @@ deleteMultiUrlsButton.addEventListener("click", () => {
 cancelOneTime.addEventListener('click', () => {
   oneTimePicker.style.display = 'none'; 
   oneTimeScheduler.textContent = 'Schedule One Time';
-  scheduleDate.value = '';
-  scheduleTime.value = '';
+  setDefaultDateTimePickers();
 });
 
 cancelDaily.addEventListener('click', () => {
   dailyPicker.style.display = 'none';
   dailyScheduler.textContent = 'Schedule Daily';
-  dailyTime.value = '';
+  setDefaultDateTimePickers();
 });
 
 // Preserve scheduled URLs in storage
@@ -452,6 +451,25 @@ multiScheduleUrls.addEventListener("input", saveScheduledUrls);
 
 // Restore URLs on popup load
 restoreScheduledUrls();
+
+// Set current date and time as default for one-time and daily scheduler
+function setDefaultDateTimePickers() {
+  const now = new Date();
+  // Format date as YYYY-MM-DD
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const formattedDate = `${yyyy}-${mm}-${dd}`;
+  scheduleDate.value = formattedDate;
+
+  // Format time as HH:MM
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const formattedTime = `${hours}:${minutes}`;
+  scheduleTime.value = formattedTime;
+  dailyTime.value = formattedTime;
+}
+setDefaultDateTimePickers();
 
 // One-time scheduler
 oneTimeScheduler.addEventListener("click", () => {
