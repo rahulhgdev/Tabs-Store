@@ -150,25 +150,13 @@ function createAccordion(name, date, urls) {
   downloadBtn.className = "download-btn";
   downloadBtn.innerHTML = '<img src="/images/downloads.png" alt="Download" height="28" width="28"/>';
   downloadBtn.onclick = function () {
-    // Create a simple Excel file using XML
-    let xml = `<?xml version="1.0"?>\n` +
-      `<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-        xmlns:o="urn:schemas-microsoft-com:office:office"
-        xmlns:x="urn:schemas-microsoft-com:office:excel"
-        xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
-        xmlns:html="http://www.w3.org/TR/REC-html40">
-        <Worksheet ss:Name="URLs">
-          <Table>
-            <Row><Cell><Data ss:Type="String">URLs</Data></Cell></Row>
-            ${urls.map(url => `<Row><Cell><Data ss:Type="String">${url}</Data></Cell></Row>`).join('')}
-          </Table>
-        </Worksheet>
-      </Workbook>`;
-    const blob = new Blob([xml], { type: 'application/vnd.ms-excel' });
+    // Create a simple TXT file containing all URLs (one per line)
+    const content = urls.join('\n');
+    const blob = new Blob([content], { type: 'text/plain' });
     const urlObj = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = urlObj;
-    a.download = `${name.replace(/\s+/g, '_')}_urls.xlsx`;
+    a.download = `${name.replace(/\s+/g, '_')}_urls.txt`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
