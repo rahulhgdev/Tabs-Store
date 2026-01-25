@@ -1,7 +1,3 @@
-chrome.runtime.onInstalled.addListener(()=>{
-  chrome.tabs.create({url: "help.html"});
-})
-
 // Handle scheduled URL opening
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name.startsWith('scheduled_urls_')) {
