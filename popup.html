@@ -60,30 +60,42 @@
                 <textarea id="multiScheduleUrls"></textarea>
                 <div class="scheduler-options">
                     <div class="scheduler-section">
-                        <h3>One Time Scheduler</h3>
+                        <div class="scheduler-header">
+                            <h3>One Time Scheduler</h3>
+                            <p class="scheduler-subtitle">Schedule URLs for a specific date & time</p>
+                        </div>
+                        <button id="oneTimeScheduler" class="scheduler-btn schedule-btn">Schedule Now</button>
                         <div id="oneTimePicker" class="datetime-picker-container" style="display: none;">
                             <div class="datetime-picker">
-                                <label for="scheduleDate">Select Date:</label>
+                                <label for="scheduleDate">📅 Select Date:</label>
                                 <input type="date" id="scheduleDate" />
                             </div>
                             <div class="datetime-picker">
-                                <label for="scheduleTime">Select Time:</label>
+                                <label for="scheduleTime">⏱️ Select Time:</label>
                                 <input type="time" id="scheduleTime" />
                             </div>
-                            <button id="cancelOneTime" class="cancel-btn">Cancel</button>
+                            <div class="button-group">
+                                <button id="confirmOneTime" class="scheduler-btn confirm-btn">Confirm</button>
+                                <button id="cancelOneTime" class="scheduler-btn cancel-btn">Cancel</button>
+                            </div>
                         </div>
-                        <button id="oneTimeScheduler">Schedule One Time</button>
                     </div>
                     <div class="scheduler-section">
-                        <h3>Daily Scheduler</h3>
+                        <div class="scheduler-header">
+                            <h3>Daily Scheduler</h3>
+                            <p class="scheduler-subtitle">Schedule URLs to open daily at set time</p>
+                        </div>
+                        <button id="dailyScheduler" class="scheduler-btn schedule-btn">Schedule Now</button>
                         <div id="dailyPicker" class="datetime-picker-container" style="display: none;">
                             <div class="datetime-picker">
-                                <label for="dailyTime">Select Time:</label>
+                                <label for="dailyTime">⏱️ Select Time:</label>
                                 <input type="time" id="dailyTime" />
                             </div>
-                            <button id="cancelDaily" class="cancel-btn">Cancel</button>
+                            <div class="button-group">
+                                <button id="confirmDaily" class="scheduler-btn confirm-btn">Confirm</button>
+                                <button id="cancelDaily" class="scheduler-btn cancel-btn">Cancel</button>
+                            </div>
                         </div>
-                        <button id="dailyScheduler">Schedule Daily</button>
                     </div>
                 </div>
             </div>

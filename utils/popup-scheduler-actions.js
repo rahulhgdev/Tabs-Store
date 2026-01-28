@@ -1,15 +1,19 @@
 // Scheduler and additional tab actions
 (function(){
+  // Get confirm button references
+  const confirmOneTime = document.getElementById('confirmOneTime');
+  const confirmDaily = document.getElementById('confirmDaily');
+  
   // Cancel button
   window.cancelOneTime.addEventListener('click', () => {
     window.oneTimePicker.style.display = 'none'; 
-    window.oneTimeScheduler.textContent = 'Schedule One Time';
+    window.oneTimeScheduler.textContent = 'Schedule Now';
     setDefaultDateTimePickers();
   });
 
   window.cancelDaily.addEventListener('click', () => {
     window.dailyPicker.style.display = 'none';
-    window.dailyScheduler.textContent = 'Schedule Daily';
+    window.dailyScheduler.textContent = 'Schedule Now';
     setDefaultDateTimePickers();
   });
 
@@ -64,9 +68,14 @@
     
     if (window.oneTimePicker.style.display === 'none') {
       window.oneTimePicker.style.display = 'block';
-      window.oneTimeScheduler.textContent = 'Confirm Schedule';
+      window.oneTimeScheduler.textContent = 'Schedule Now';
       return;
     }
+  });
+
+  // Confirm One-Time Schedule
+  confirmOneTime.addEventListener("click", () => {
+    const urls = window.multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
     
     const selectedDate = window.scheduleDate.value;
     const selectedTime = window.scheduleTime.value;
@@ -90,10 +99,10 @@
         when: scheduledDateTime.getTime()
       });
       
-      alert(`URLs scheduled to open on ${selectedDate} at ${selectedTime}`);
+      alert(`✓ URLs scheduled to open on ${selectedDate} at ${selectedTime}`);
       
       window.oneTimePicker.style.display = 'none';
-      window.oneTimeScheduler.textContent = 'Schedule One Time';
+      window.oneTimeScheduler.textContent = 'Schedule Now';
       window.scheduleDate.value = "";
       window.scheduleTime.value = "";
     });
@@ -110,9 +119,14 @@
     
     if (window.dailyPicker.style.display === 'none') {
       window.dailyPicker.style.display = 'block';
-      window.dailyScheduler.textContent = 'Confirm Schedule';
+      window.dailyScheduler.textContent = 'Schedule Now';
       return;
     }
+  });
+
+  // Confirm Daily Schedule
+  confirmDaily.addEventListener("click", () => {
+    const urls = window.multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
     
     const selectedTime = window.dailyTime.value;
     if (!selectedTime) {
@@ -142,10 +156,10 @@
         periodInMinutes: 24 * 60 // Repeat every 24 hours
       });
       
-      alert(`URLs scheduled to open daily at ${selectedTime}`);
+      alert(`✓ URLs scheduled to open daily at ${selectedTime}`);
       
       window.dailyPicker.style.display = 'none';
-      window.dailyScheduler.textContent = 'Schedule Daily';
+      window.dailyScheduler.textContent = 'Schedule Now';
       window.dailyTime.value = "";
     });
   });

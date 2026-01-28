@@ -411,16 +411,19 @@ deleteMultiUrlsButton.addEventListener("click", () => {
 
 // ---- URLs scheduler ---- //
 
+const confirmOneTime = document.getElementById('confirmOneTime');
+const confirmDaily = document.getElementById('confirmDaily');
+
 // Cancel button
 cancelOneTime.addEventListener('click', () => {
   oneTimePicker.style.display = 'none'; 
-  oneTimeScheduler.textContent = 'Schedule One Time';
+  oneTimeScheduler.textContent = 'Schedule Now';
   setDefaultDateTimePickers();
 });
 
 cancelDaily.addEventListener('click', () => {
   dailyPicker.style.display = 'none';
-  dailyScheduler.textContent = 'Schedule Daily';
+  dailyScheduler.textContent = 'Schedule Now';
   setDefaultDateTimePickers();
 });
 
@@ -475,9 +478,14 @@ oneTimeScheduler.addEventListener("click", () => {
   
   if (oneTimePicker.style.display === 'none') {
     oneTimePicker.style.display = 'block';
-    oneTimeScheduler.textContent = 'Confirm Schedule';
+    oneTimeScheduler.textContent = 'Schedule Now';
     return;
   }
+});
+
+// Confirm One-Time Schedule
+confirmOneTime.addEventListener("click", () => {
+  const urls = multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
   
   const selectedDate = scheduleDate.value;
   const selectedTime = scheduleTime.value;
@@ -504,7 +512,7 @@ oneTimeScheduler.addEventListener("click", () => {
     alert(`URLs scheduled to open on ${selectedDate} at ${selectedTime}`);
     
     oneTimePicker.style.display = 'none';
-    oneTimeScheduler.textContent = 'Schedule One Time';
+    oneTimeScheduler.textContent = 'Schedule Now';
     scheduleDate.value = "";
     scheduleTime.value = "";
   });
@@ -521,9 +529,14 @@ dailyScheduler.addEventListener("click", () => {
   
   if (dailyPicker.style.display === 'none') {
     dailyPicker.style.display = 'block';
-    dailyScheduler.textContent = 'Confirm Schedule';
+    dailyScheduler.textContent = 'Schedule Now';
     return;
   }
+});
+
+// Confirm Daily Schedule
+confirmDaily.addEventListener("click", () => {
+  const urls = multiScheduleUrls.value.split("\n").map(url => url.trim()).filter(url => url !== "");
   
   const selectedTime = dailyTime.value;
   if (!selectedTime) {
@@ -556,7 +569,7 @@ dailyScheduler.addEventListener("click", () => {
     alert(`URLs scheduled to open daily at ${selectedTime}`);
     
     dailyPicker.style.display = 'none';
-    dailyScheduler.textContent = 'Schedule Daily';
+    dailyScheduler.textContent = 'Schedule Now';
     dailyTime.value = "";
   });
 });
