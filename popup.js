@@ -395,6 +395,11 @@ extractURLs.addEventListener("click", ()=> {
   let matches = text.match(regexToMatch);
   if(matches){
     multiUrlsTextarea.value = matches.join('\n');
+    // Save extracted URLs
+    if (getPreserve.checked) {
+      const urls = matches;
+      chrome.storage.local.set({ multiUrls: urls });
+    }
   }
 })
 

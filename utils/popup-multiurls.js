@@ -180,6 +180,11 @@
     let matches = text.match(regexToMatch);
     if(matches){
       window.multiUrlsTextarea.value = matches.join('\n');
+      // Save extracted URLs to storage
+      if (window.getPreserve.checked) {
+        const urls = matches;
+        chrome.storage.local.set({ multiUrls: urls });
+      }
     }
   })
 
